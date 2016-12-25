@@ -1,19 +1,20 @@
 class Tier < ApplicationRecord
-  validate :validate_number_of_admins, :validate_creation
+  validate :validate_number, :validate_creation
+  has_many :admins
 
-  def validate_number_of_admins
-    if admins.present?
+  def validate_number
+    if number.present?
       if Tier.count == 0
-        unless admins == 1
-          errors.add(:admins, "must be one")
+        unless number == 1
+          errors.add(:number, "must be one")
         end
       else
-        unless (admins % Tier.last.admins) == 0
-          errors.add(:admins, "must be divisible by #{Tier.last.admins}")
+        unless (number % Tier.last.number) == 0
+          errors.add(:number, "must be divisible by #{Tier.last.number}")
         end
       end
     else
-      errors.add(:admins, "must be present")
+      errors.add(:number, "must be present")
     end
   end
 
@@ -22,4 +23,12 @@ class Tier < ApplicationRecord
       errors.add(:bottom, "No more tiers can be created")
     end
   end
+
+  # def validate_previous_is_full
+  #   if Tier.last
+  #     unless Tier.last.full?
+  #       errors.add(:create, "Previous tier must be full")
+  #     end
+  #   end
+  # end
 end
