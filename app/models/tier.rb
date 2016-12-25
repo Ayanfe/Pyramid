@@ -25,7 +25,7 @@ class Tier < ApplicationRecord
   end
 
   def full?
-    unless number == admins.count
+    if number == admins.count
       true
     end
     false
