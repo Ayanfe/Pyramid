@@ -24,6 +24,13 @@ class Tier < ApplicationRecord
     end
   end
 
+  def full?
+    unless number == admins.count
+      true
+    end
+    false
+  end
+
   # def validate_previous_is_full
   #   if Tier.last
   #     unless Tier.last.full?
