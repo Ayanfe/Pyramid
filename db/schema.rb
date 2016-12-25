@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213212938) do
+ActiveRecord::Schema.define(version: 20161225195634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admins", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "admin_id"
+    t.integer  "tier_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_admins_on_admin_id", using: :btree
+    t.index ["tier_id"], name: "index_admins_on_tier_id", using: :btree
+  end
 
   create_table "tiers", force: :cascade do |t|
     t.integer  "admins"
@@ -22,4 +32,6 @@ ActiveRecord::Schema.define(version: 20161213212938) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "admins", "admins"
+  add_foreign_key "admins", "tiers"
 end
