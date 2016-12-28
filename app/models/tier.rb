@@ -1,5 +1,5 @@
 class Tier < ApplicationRecord
-  validate :validate_number, :validate_creation
+  validate :validate_number, :validate_creation, :validate_previous_is_full
   has_many :admins
 
   def validate_number
@@ -26,16 +26,16 @@ class Tier < ApplicationRecord
 
   def full?
     if number == admins.count
-      true
+      return true
     end
     false
   end
 
-  # def validate_previous_is_full
-  #   if Tier.last
-  #     unless Tier.last.full?
-  #       errors.add(:create, "Previous tier must be full")
-  #     end
-  #   end
-  # end
+  def validate_previous_is_full
+    if Tier.last
+      unless Tier.last.full?
+        errors.add(:create, "Previous tier must be full")
+      end
+    end
+  end
 end
